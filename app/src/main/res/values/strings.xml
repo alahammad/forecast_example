@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">forecastExample</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="api_key">90ca2d1b716e197eb28484c669029</string>
+
+
+    <string-array name="default_cities">
+        <item>Dublin</item>
+        <item>London</item>
+        <item>New York</item>
+        <item>Barcelona</item>
+    </string-array>
+</resources>
