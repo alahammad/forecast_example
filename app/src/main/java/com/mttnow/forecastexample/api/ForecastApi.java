@@ -11,10 +11,10 @@ import retrofit.http.Query;
  */
 public interface ForecastApi {
 
-    @GET("weather.ashx")
+    @GET("weather.ashx?num_of_days=5&cc=no&fx24=no&tp=24&format=json")
     Call<Forecast> getForecast(
             @Query("q") String country,
-            @Query("format") String format,
-            @Query("key") String apiKey);
+            @Query("key") String apiKey
+    );
 
 }

@@ -1,5 +1,8 @@
 package com.mttnow.forecastexample.entites;
 
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+
 /**
  * Created by alahammad on 12/2/15.
  */
