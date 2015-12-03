@@ -5,6 +5,7 @@ import org.parceler.Parcel;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by alahammad on 12/2/15.
@@ -16,6 +17,9 @@ import io.realm.RealmObject;
 
 
 public class Data extends RealmObject {
+
+    @PrimaryKey
+    private long id;
 
     private RealmList<Current_condition> current_condition;
     private RealmList<Error> error;
@@ -58,4 +62,11 @@ public class Data extends RealmObject {
     }
 
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

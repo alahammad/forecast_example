@@ -24,15 +24,11 @@ import butterknife.ButterKnife;
 /**
  * Created by alahammad on 12/3/15.
  */
-public class AddForecastFragment extends Fragment {
+public class AddForecastFragment extends Fragment implements SearchView.OnQueryTextListener {
 
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-
-    private SearchView mSearchView;
-    private MenuItem searchMenuItem;
-
 
     public static AddForecastFragment getInstance() {
         AddForecastFragment addForecastFragment = new AddForecastFragment();
@@ -44,7 +40,6 @@ public class AddForecastFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         setHasOptionsMenu(true);
-
     }
 
     @Nullable
@@ -66,20 +61,6 @@ public class AddForecastFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
     }
 
-    SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextSubmit(String query) {
-            Toast.makeText(getActivity(), query, Toast.LENGTH_LONG).show();
-
-            return false;
-        }
-
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            // newText is text entered by user to SearchView
-            return false;
-        }
-    };
 
 
     @Override
@@ -88,7 +69,7 @@ public class AddForecastFragment extends Fragment {
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(listener);
+        searchView.setOnQueryTextListener(this);
         searchView.setQueryHint("Search");
         searchItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
@@ -96,4 +77,15 @@ public class AddForecastFragment extends Fragment {
     }
 
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Toast.makeText(getActivity(), query, Toast.LENGTH_LONG).show();
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
 }

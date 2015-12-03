@@ -6,7 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.mttnow.forecastexample.entites.City;
+import com.mttnow.forecastexample.entites.Data;
+import com.mttnow.forecastexample.entites.Request;
+import com.mttnow.forecastexample.presenter.ForecastPresenter;
+import com.mttnow.forecastexample.presenter.ForecastPresenterImp;
 import com.mttnow.forecastexample.utils.DatabaseUtils;
+
+import io.realm.RealmList;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -17,6 +23,23 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         showSplash();
+        addDefaultCities();
+    }
+
+    private void addDefaultCities() {
+        String[] cities = getResources().getStringArray(R.array.default_cities);
+        Data data = null;
+        for (String city : cities) {
+            data = new Data();
+            Request request = new Request();
+            request.setQuery(city);
+            RealmList<Request> requests = new RealmList<Request>();
+            requests.add(request);
+            data.setRequest(requests);
+            DatabaseUtils.getInstance(this).createData(data);
+        }
+
+
     }
 
 

@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.mttnow.forecastexample.entites.City;
 import com.mttnow.forecastexample.entites.Data;
-import com.mttnow.forecastexample.entites.Weather;
-import com.mttnow.forecastexample.entites.WeatherWrapper;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -66,35 +64,39 @@ public class DatabaseUtils {
         return query.findAll();
     }
 
-    public void createWeatherForCity(WeatherWrapper[] weatherWrapper, long cityID) {
-        for (WeatherWrapper weather : weatherWrapper
-                ) {
-            Number number = _realm.where(WeatherWrapper.class).max("id");
-            int id = number == null ? 0 : number.intValue() + 1;
-            weather.setId(id);
-            _realm.beginTransaction();
-            WeatherWrapper cityRealm = _realm.copyToRealm(weather);
-            _realm.commitTransaction();
-        }
-
-    }
-
-    public RealmResults<WeatherWrapper> getWeathers(long city) {
-        RealmQuery<WeatherWrapper> query = _realm.where(WeatherWrapper.class);
-        query.equalTo("cityID", city);
-        return query.findAll();
-    }
-
-    public void clearWeatherTable() {
-        _realm.beginTransaction();
-        _realm.clear(WeatherWrapper.class);
-        _realm.commitTransaction();
-    }
+//    public void createWeatherForCity(WeatherWrapper[] weatherWrapper, long cityID) {
+//        for (WeatherWrapper weather : weatherWrapper
+//                ) {
+//            Number number = _realm.where(WeatherWrapper.class).max("id");
+//            int id = number == null ? 0 : number.intValue() + 1;
+//            weather.setId(id);
+//            _realm.beginTransaction();
+//            WeatherWrapper cityRealm = _realm.copyToRealm(weather);
+//            _realm.commitTransaction();
+//        }
+//
+//    }
+//
+//    public RealmResults<WeatherWrapper> getWeathers(long city) {
+//        RealmQuery<WeatherWrapper> query = _realm.where(WeatherWrapper.class);
+//        query.equalTo("cityID", city);
+//        return query.findAll();
+//    }
+//
+//    public void clearWeatherTable() {
+//        _realm.beginTransaction();
+//        _realm.clear(WeatherWrapper.class);
+//        _realm.commitTransaction();
+//    }
 
 
     public void createData(Data data) {
+        Number number = _realm.where(Data.class).max("id");
+        int id = number == null ? 0 : number.intValue() + 1;
+        data.setId(id);
+
         _realm.beginTransaction();
-        _realm.copyToRealm(data);
+        Data data1 = _realm.copyToRealmOrUpdate(data);
         _realm.commitTransaction();
     }
 

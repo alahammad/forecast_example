@@ -55,7 +55,7 @@ public final class CitiesAdapter extends RealmRecyclerViewAdapter<Data> {
         EventViewHolder evh = (EventViewHolder) viewHolder;
         Data city = getItem(i);
         evh.tvName.setText(city.getRequest().get(0).getQuery());
-        evh.tvTemp.setText(city.getWeather().get(0).getMaxtempC());
+//        evh.tvTemp.setText(city.getWeather().get(0).getMaxtempC());
     }
 
     /* The inner RealmBaseAdapter

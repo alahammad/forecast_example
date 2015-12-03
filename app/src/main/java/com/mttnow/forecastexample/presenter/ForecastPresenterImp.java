@@ -3,18 +3,14 @@ package com.mttnow.forecastexample.presenter;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.mttnow.forecastexample.R;
 import com.mttnow.forecastexample.adapters.CitiesAdapter;
-import com.mttnow.forecastexample.adapters.RealmCitiesAdapter;
 import com.mttnow.forecastexample.api.ApiGenerator;
 import com.mttnow.forecastexample.api.ForecastApi;
 import com.mttnow.forecastexample.entites.*;
-import com.mttnow.forecastexample.entites.Error;
 import com.mttnow.forecastexample.utils.DatabaseUtils;
 import com.mttnow.forecastexample.utils.DialogsUtils;
-import com.mttnow.forecastexample.utils.Utils;
 import com.mttnow.forecastexample.view.ForecastView;
 
 import retrofit.Call;
@@ -67,6 +63,7 @@ public class ForecastPresenterImp implements ForecastPresenter {
     public void loadForecasts(final Context context, final CitiesAdapter adapter) {
         forecastView.startLoading();
         ForecastApi retrofit = ApiGenerator.createService(ForecastApi.class);
+        int count = adapter.getItemCount();
         for (int i = 0; i < adapter.getItemCount(); i++) {
             final int index = i;
             Call<Forecast> call = retrofit.getForecast(adapter.getItem(i).getRequest().get(0).getQuery(), context.getString(R.string.api_key));
@@ -75,6 +72,7 @@ public class ForecastPresenterImp implements ForecastPresenter {
                 public void onResponse(Response<Forecast> response, Retrofit retrofit) {
                     forecastView.stopLoading();
                     if (response.isSuccess()) {
+                        DatabaseUtils.getInstance(context).createData(response.body().getData());
 //                        City city = adapter.getItem(index);
 //                            DatabaseUtils.getInstance(context).createData(response.body().getData());
 //                        String temp = response.body().getData().getWeather().get(0).getMaxtempC();

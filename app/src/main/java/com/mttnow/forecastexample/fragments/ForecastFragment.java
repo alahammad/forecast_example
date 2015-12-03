@@ -16,22 +16,18 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.mttnow.forecastexample.R;
-import com.mttnow.forecastexample.entites.City;
 import com.mttnow.forecastexample.entites.Data;
-import com.mttnow.forecastexample.entites.WeatherWrapper;
 import com.mttnow.forecastexample.presenter.ForecastPresenter;
 import com.mttnow.forecastexample.presenter.ForecastPresenterImp;
 import com.mttnow.forecastexample.adapters.CitiesAdapter;
 import com.mttnow.forecastexample.utils.DatabaseUtils;
 import com.mttnow.forecastexample.adapters.RealmCitiesAdapter;
 import com.mttnow.forecastexample.utils.FragmentTransactionInterface;
-import com.mttnow.forecastexample.utils.Utils;
 import com.mttnow.forecastexample.view.ForecastView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.RealmResults;
 
 /**
  * Created by alahammad on 12/3/15.
@@ -95,8 +91,10 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
         super.onViewCreated(view, savedInstanceState);
         mPresenter = new ForecastPresenterImp(this);
         setupActionBar();
-        mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new CitiesAdapter();
+
+        refresh();
+        mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mRealmAdapter = new RealmCitiesAdapter(getActivity().getApplicationContext(), DatabaseUtils.getInstance(getActivity()).count(), true);
         mAdapter.setRealmAdapter(mRealmAdapter);
@@ -111,7 +109,8 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
                 fragmentTransactionInterface.changeFragment(ForecastDetailsFragment.getInstance(weatherWrapper), true);
             }
         });
-        refresh();
+
+
     }
 
     private void refresh() {

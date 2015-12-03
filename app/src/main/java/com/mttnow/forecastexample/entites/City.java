@@ -20,8 +20,6 @@ public class City extends RealmObject {
 
 
     //     because realm limitation
-    @Ignore
-    private WeatherWrapper[] weatherWrapper;
 
     public City() {
     }
@@ -56,12 +54,4 @@ public class City extends RealmObject {
         this.id = id;
     }
 
-
-    public WeatherWrapper[] getWeatherWrapper() {
-        return weatherWrapper;
-    }
-
-    public void setWeatherWrapper(WeatherWrapper[] weatherWrapper) {
-        this.weatherWrapper = weatherWrapper;
-    }
 }

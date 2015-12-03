@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements FragmentTransacti
             changeFragment(ForecastFragment.getInstance());
 
         int count = DatabaseUtils.getInstance(this).count().size();
-        Data forecast = DatabaseUtils.getInstance(this).count().get(0);
-        String max = forecast.getWeather().get(0).getMaxtempC();
         Log.d("ad", "sd");
     }
 
@@ -52,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements FragmentTransacti
     @Override
     public void changeFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left,
-                R.anim.exit_to_right);
+//        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left,
+//                R.anim.exit_to_right);
         fragmentTransaction.replace(R.id.container, fragment);
 
         if (addToBackStack)

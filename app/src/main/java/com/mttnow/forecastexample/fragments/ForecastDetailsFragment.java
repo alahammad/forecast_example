@@ -7,22 +7,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mttnow.forecastexample.R;
 import com.mttnow.forecastexample.entites.Data;
-import com.mttnow.forecastexample.entites.Forecast;
-import com.mttnow.forecastexample.entites.WeatherWrapper;
 import com.mttnow.forecastexample.utils.MyParcelable;
 
-import org.parceler.Parcels;
-
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.RealmResults;
 
 /**
  * Created by alahammad on 12/3/15.
  */
 public class ForecastDetailsFragment extends Fragment {
+
+    @Bind(R.id.textView2)
+    TextView txt;
 
     public static final String FORECAST_KEY = "selected_forecast";
     private Data mSelectedForecast;
@@ -53,6 +53,7 @@ public class ForecastDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         mSelectedForecast = (Data) MyParcelable.getInstance().getObject();
+        txt.setText(mSelectedForecast.getRequest().get(0).getQuery());
         Log.d("ha", "stiop");
     }
 
