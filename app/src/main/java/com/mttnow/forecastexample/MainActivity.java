@@ -1,64 +1,54 @@
 package com.mttnow.forecastexample;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.mttnow.forecastexample.api.ForecastApi;
-import com.mttnow.forecastexample.entites.Forecast;
+import com.mttnow.forecastexample.fragments.ForecastFragment;
 import com.mttnow.forecastexample.presenter.ForecastPresenter;
 import com.mttnow.forecastexample.presenter.ForecastPresenterImp;
+import com.mttnow.forecastexample.utils.FragmentTransactionInterface;
 import com.mttnow.forecastexample.view.ForecastView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
 
-public class MainActivity extends AppCompatActivity implements ForecastView {
-
-    @Bind(R.id.progressBar)
-    ProgressBar mLoadingProgress;
+public class MainActivity extends AppCompatActivity implements FragmentTransactionInterface {
 
 
-    ForecastPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        configActionBar();
-        mPresenter = new ForecastPresenterImp(this);
-
-    }
-
-    @OnClick(R.id.fab)
-    private void floatActionButton() {
-        mPresenter.loadForecast("Dublin", MainActivity.this);
-    }
-
-    private void configActionBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        setupActionBar();
+        if (savedInstanceState == null)
+            changeFragment(ForecastFragment.getInstance());
     }
 
 
     @Override
-    public void stopLoading() {
-        mLoadingProgress.setVisibility(View.GONE);
+    public void changeFragment(Fragment fragment) {
+        changeFragment(fragment, false);
     }
 
     @Override
-    public void startLoading() {
-        mLoadingProgress.setVisibility(View.VISIBLE);
+    public void changeFragment(Fragment fragment, boolean addToBackStack) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left,
+                R.anim.exit_to_right);
+        fragmentTransaction.replace(R.id.container, fragment);
+
+        if (addToBackStack)
+            fragmentTransaction.addToBackStack(fragment.getClass().getName());
+        fragmentTransaction.commit();
     }
 }

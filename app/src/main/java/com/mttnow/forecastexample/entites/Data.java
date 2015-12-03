@@ -1,11 +1,17 @@
 package com.mttnow.forecastexample.entites;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import io.realm.RealmObject;
+
 /**
  * Created by alahammad on 12/2/15.
  */
 public class Data {
 
     private Current_condition[] current_condition;
+    private Error[] error;
 
     private Request[] request;
 
@@ -35,8 +41,19 @@ public class Data {
         this.weather = weather;
     }
 
+
+    public Error[] getError() {
+        return error;
+    }
+
+    public void setError(Error[] error) {
+        this.error = error;
+    }
+
     @Override
     public String toString() {
         return "ClassPojo [current_condition = " + current_condition + ", request = " + request + ", weather = " + weather + "]";
     }
+
+
 }
