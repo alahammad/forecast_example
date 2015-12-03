@@ -1,9 +1,11 @@
 package com.mttnow.forecastexample.entites;
 
+import io.realm.RealmObject;
+
 /**
  * Created by alahammad on 12/2/15.
  */
-public class Astronomy {
+public class Astronomy extends RealmObject {
 
     private String moonset;
 
@@ -45,8 +47,5 @@ public class Astronomy {
         this.moonrise = moonrise;
     }
 
-    @Override
-    public String toString() {
-        return "ClassPojo [moonset = " + moonset + ", sunset = " + sunset + ", sunrise = " + sunrise + ", moonrise = " + moonrise + "]";
-    }
+
 }

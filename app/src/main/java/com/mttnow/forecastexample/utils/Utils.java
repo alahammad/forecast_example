@@ -15,7 +15,7 @@ public class Utils {
     public static WeatherWrapper[] getWeatherWrpped(Weather[] weathers, long cityId) {
         WeatherWrapper[] wrappers = new WeatherWrapper[weathers.length];
         for (int i = 0; i < weathers.length; i++) {
-            wrappers[i] = new WeatherWrapper(weathers[i].getMaxtempC(), weathers[i].getMintempC(), weathers[i].getDate(), weathers[i].getHourly()[0].getWeatherDesc()[0].getValue(), weathers[i].getHourly()[0].getHumidity(), cityId);
+            wrappers[i] = new WeatherWrapper(weathers[i].getMaxtempC(), weathers[i].getMintempC(), weathers[i].getDate(), weathers[i].getHourly().get(0).getWeatherDesc().get(0).getValue(), weathers[i].getHourly().get(0).getHumidity(), cityId);
         }
         return wrappers;
     }

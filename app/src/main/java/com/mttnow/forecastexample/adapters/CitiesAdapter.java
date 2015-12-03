@@ -8,11 +8,12 @@ import android.widget.TextView;
 
 import com.mttnow.forecastexample.R;
 import com.mttnow.forecastexample.entites.City;
+import com.mttnow.forecastexample.entites.Data;
 
 /**
  * Created by alahammad on 12/3/15.
  */
-public final class CitiesAdapter extends RealmRecyclerViewAdapter<City> {
+public final class CitiesAdapter extends RealmRecyclerViewAdapter<Data> {
 
     public interface OnItemClickListener {
         public void onItemClick(View view, int position);
@@ -52,9 +53,9 @@ public final class CitiesAdapter extends RealmRecyclerViewAdapter<City> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         EventViewHolder evh = (EventViewHolder) viewHolder;
-        City city = getItem(i);
-        evh.tvName.setText(city.getCityName());
-        evh.tvTemp.setText(city.getTemp());
+        Data city = getItem(i);
+        evh.tvName.setText(city.getRequest().get(0).getQuery());
+        evh.tvTemp.setText(city.getWeather().get(0).getMaxtempC());
     }
 
     /* The inner RealmBaseAdapter

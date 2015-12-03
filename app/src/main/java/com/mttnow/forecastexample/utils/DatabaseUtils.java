@@ -3,6 +3,7 @@ package com.mttnow.forecastexample.utils;
 import android.content.Context;
 
 import com.mttnow.forecastexample.entites.City;
+import com.mttnow.forecastexample.entites.Data;
 import com.mttnow.forecastexample.entites.Weather;
 import com.mttnow.forecastexample.entites.WeatherWrapper;
 
@@ -88,6 +89,18 @@ public class DatabaseUtils {
         _realm.beginTransaction();
         _realm.clear(WeatherWrapper.class);
         _realm.commitTransaction();
+    }
+
+
+    public void createData(Data data) {
+        _realm.beginTransaction();
+        _realm.copyToRealm(data);
+        _realm.commitTransaction();
+    }
+
+    public RealmResults<Data> count() {
+        RealmQuery<Data> query = _realm.where(Data.class);
+        return query.findAll();
     }
 
 }

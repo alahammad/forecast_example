@@ -1,12 +1,13 @@
 package com.mttnow.forecastexample.entites;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 
 /**
  * Created by alahammad on 12/2/15.
  */
-public class Weather {
+public class Weather extends RealmObject {
 
     private String mintempF;
 
@@ -18,11 +19,11 @@ public class Weather {
 
     private String maxtempF;
 
-    private Hourly[] hourly;
+    private RealmList<Hourly> hourly;
 
     private String date;
 
-    private Astronomy[] astronomy;
+    private RealmList<Astronomy> astronomy;
 
     public String getMintempF() {
         return mintempF;
@@ -64,11 +65,11 @@ public class Weather {
         this.maxtempF = maxtempF;
     }
 
-    public Hourly[] getHourly() {
+    public RealmList<Hourly> getHourly() {
         return hourly;
     }
 
-    public void setHourly(Hourly[] hourly) {
+    public void setHourly(RealmList<Hourly> hourly) {
         this.hourly = hourly;
     }
 
@@ -80,16 +81,12 @@ public class Weather {
         this.date = date;
     }
 
-    public Astronomy[] getAstronomy() {
+    public RealmList<Astronomy> getAstronomy() {
         return astronomy;
     }
 
-    public void setAstronomy(Astronomy[] astronomy) {
+    public void setAstronomy(RealmList<Astronomy> astronomy) {
         this.astronomy = astronomy;
     }
 
-    @Override
-    public String toString() {
-        return "ClassPojo [mintempF = " + mintempF + ", uvIndex = " + uvIndex + ", mintempC = " + mintempC + ", maxtempC = " + maxtempC + ", maxtempF = " + maxtempF + ", hourly = " + hourly + ", date = " + date + ", astronomy = " + astronomy + "]";
-    }
 }

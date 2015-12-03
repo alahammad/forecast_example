@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 
 import com.mttnow.forecastexample.R;
 import com.mttnow.forecastexample.entites.City;
+import com.mttnow.forecastexample.entites.Data;
 import com.mttnow.forecastexample.entites.WeatherWrapper;
 import com.mttnow.forecastexample.presenter.ForecastPresenter;
 import com.mttnow.forecastexample.presenter.ForecastPresenterImp;
@@ -97,17 +98,17 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new CitiesAdapter();
 
-        mRealmAdapter = new RealmCitiesAdapter(getActivity().getApplicationContext(), DatabaseUtils.getInstance(getActivity()).getAllCities(), true);
+        mRealmAdapter = new RealmCitiesAdapter(getActivity().getApplicationContext(), DatabaseUtils.getInstance(getActivity()).count(), true);
         mAdapter.setRealmAdapter(mRealmAdapter);
         mRecycleView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new CitiesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                City weatherWrapper = mAdapter.getRealmAdapter().getItem(position);
-                long id = weatherWrapper.getId();
-                RealmResults<WeatherWrapper> weatherWrappers = DatabaseUtils.getInstance(getActivity()).getWeathers(id);
-
-                fragmentTransactionInterface.changeFragment(ForecastDetailsFragment.getInstance(Utils.getWeatherWrpped(weatherWrappers, id)), true);
+                Data weatherWrapper = mAdapter.getRealmAdapter().getItem(position);
+//                long id = weatherWrapper.getId();
+//                RealmResults<WeatherWrapper> weatherWrappers = DatabaseUtils.getInstance(getActivity()).getWeathers(id);
+//
+                fragmentTransactionInterface.changeFragment(ForecastDetailsFragment.getInstance(weatherWrapper), true);
             }
         });
         refresh();

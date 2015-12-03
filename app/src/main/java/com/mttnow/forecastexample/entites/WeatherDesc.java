@@ -1,9 +1,11 @@
 package com.mttnow.forecastexample.entites;
 
+import io.realm.RealmObject;
+
 /**
  * Created by alahammad on 12/2/15.
  */
-public class WeatherDesc {
+public class WeatherDesc extends RealmObject {
 
 
     private String value;
@@ -16,8 +18,5 @@ public class WeatherDesc {
         this.value = value;
     }
 
-    @Override
-    public String toString() {
-        return "ClassPojo [value = " + value + "]";
-    }
+
 }

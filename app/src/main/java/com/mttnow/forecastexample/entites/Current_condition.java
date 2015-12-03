@@ -1,9 +1,12 @@
 package com.mttnow.forecastexample.entites;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
 /**
  * Created by alahammad on 12/2/15.
  */
-public class Current_condition {
+public class Current_condition extends RealmObject {
 
     private String cloudcover;
 
@@ -27,7 +30,7 @@ public class Current_condition {
 
     private String winddir16Point;
 
-    private WeatherIconUrl[] weatherIconUrl;
+    private RealmList<WeatherIconUrl> weatherIconUrl;
 
     private String humidity;
 
@@ -37,7 +40,7 @@ public class Current_condition {
 
     private String weatherCode;
 
-    private WeatherDesc[] weatherDesc;
+    private RealmList<WeatherDesc> weatherDesc;
 
     public String getCloudcover() {
         return cloudcover;
@@ -127,11 +130,11 @@ public class Current_condition {
         this.winddir16Point = winddir16Point;
     }
 
-    public WeatherIconUrl[] getWeatherIconUrl() {
+    public RealmList<WeatherIconUrl> getWeatherIconUrl() {
         return weatherIconUrl;
     }
 
-    public void setWeatherIconUrl(WeatherIconUrl[] weatherIconUrl) {
+    public void setWeatherIconUrl(RealmList<WeatherIconUrl> weatherIconUrl) {
         this.weatherIconUrl = weatherIconUrl;
     }
 
@@ -167,16 +170,13 @@ public class Current_condition {
         this.weatherCode = weatherCode;
     }
 
-    public WeatherDesc[] getWeatherDesc() {
+    public RealmList<WeatherDesc> getWeatherDesc() {
         return weatherDesc;
     }
 
-    public void setWeatherDesc(WeatherDesc[] weatherDesc) {
+    public void setWeatherDesc(RealmList<WeatherDesc> weatherDesc) {
         this.weatherDesc = weatherDesc;
     }
 
-    @Override
-    public String toString() {
-        return "ClassPojo [cloudcover = " + cloudcover + ", observation_time = " + observation_time + ", pressure = " + pressure + ", temp_C = " + temp_C + ", visibility = " + visibility + ", FeelsLikeC = " + FeelsLikeC + ", temp_F = " + temp_F + ", windspeedMiles = " + windspeedMiles + ", precipMM = " + precipMM + ", winddirDegree = " + winddirDegree + ", winddir16Point = " + winddir16Point + ", weatherIconUrl = " + weatherIconUrl + ", humidity = " + humidity + ", FeelsLikeF = " + FeelsLikeF + ", windspeedKmph = " + windspeedKmph + ", weatherCode = " + weatherCode + ", weatherDesc = " + weatherDesc + "]";
-    }
+
 }

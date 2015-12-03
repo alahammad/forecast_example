@@ -1,9 +1,12 @@
 package com.mttnow.forecastexample.entites;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
 /**
  * Created by alahammad on 12/2/15.
  */
-public class Hourly {
+public class Hourly extends RealmObject {
     private String chanceofremdry;
 
     private String chanceofovercast;
@@ -24,7 +27,7 @@ public class Hourly {
 
     private String HeatIndexC;
 
-    private WeatherIconUrl[] weatherIconUrl;
+    private RealmList<WeatherIconUrl> weatherIconUrl;
 
     private String time;
 
@@ -72,7 +75,7 @@ public class Hourly {
 
     private String DewPointF;
 
-    private WeatherDesc[] weatherDesc;
+    private RealmList<WeatherDesc> weatherDesc;
 
     public String getChanceofremdry() {
         return chanceofremdry;
@@ -154,11 +157,11 @@ public class Hourly {
         this.HeatIndexC = HeatIndexC;
     }
 
-    public WeatherIconUrl[] getWeatherIconUrl() {
+    public RealmList<WeatherIconUrl> getWeatherIconUrl() {
         return weatherIconUrl;
     }
 
-    public void setWeatherIconUrl(WeatherIconUrl[] weatherIconUrl) {
+    public void setWeatherIconUrl(RealmList<WeatherIconUrl> weatherIconUrl) {
         this.weatherIconUrl = weatherIconUrl;
     }
 
@@ -346,16 +349,13 @@ public class Hourly {
         this.DewPointF = DewPointF;
     }
 
-    public WeatherDesc[] getWeatherDesc() {
+    public RealmList<WeatherDesc> getWeatherDesc() {
         return weatherDesc;
     }
 
-    public void setWeatherDesc(WeatherDesc[] weatherDesc) {
+    public void setWeatherDesc(RealmList<WeatherDesc> weatherDesc) {
         this.weatherDesc = weatherDesc;
     }
 
-    @Override
-    public String toString() {
-        return "ClassPojo [chanceofremdry = " + chanceofremdry + ", chanceofovercast = " + chanceofovercast + ", visibility = " + visibility + ", FeelsLikeC = " + FeelsLikeC + ", chanceofhightemp = " + chanceofhightemp + ", chanceofrain = " + chanceofrain + ", chanceoffog = " + chanceoffog + ", WindGustKmph = " + WindGustKmph + ", HeatIndexF = " + HeatIndexF + ", HeatIndexC = " + HeatIndexC + ", weatherIconUrl = " + weatherIconUrl + ", time = " + time + ", WindChillC = " + WindChillC + ", chanceofsunshine = " + chanceofsunshine + ", WindGustMiles = " + WindGustMiles + ", chanceofsnow = " + chanceofsnow + ", WindChillF = " + WindChillF + ", tempC = " + tempC + ", cloudcover = " + cloudcover + ", pressure = " + pressure + ", windspeedMiles = " + windspeedMiles + ", chanceofwindy = " + chanceofwindy + ", precipMM = " + precipMM + ", winddirDegree = " + winddirDegree + ", winddir16Point = " + winddir16Point + ", humidity = " + humidity + ", chanceoffrost = " + chanceoffrost + ", FeelsLikeF = " + FeelsLikeF + ", windspeedKmph = " + windspeedKmph + ", DewPointC = " + DewPointC + ", chanceofthunder = " + chanceofthunder + ", tempF = " + tempF + ", weatherCode = " + weatherCode + ", DewPointF = " + DewPointF + ", weatherDesc = " + weatherDesc + "]";
-    }
+
 }

@@ -1,9 +1,11 @@
 package com.mttnow.forecastexample.entites;
 
+import io.realm.RealmObject;
+
 /**
  * Created by alahammad on 12/2/15.
  */
-public class WeatherIconUrl {
+public class WeatherIconUrl extends RealmObject {
     private String value;
 
     public String getValue() {
@@ -14,8 +16,4 @@ public class WeatherIconUrl {
         this.value = value;
     }
 
-    @Override
-    public String toString() {
-        return "ClassPojo [value = " + value + "]";
-    }
 }

@@ -6,13 +6,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.mttnow.forecastexample.entites.Data;
+import com.mttnow.forecastexample.entites.Forecast;
 import com.mttnow.forecastexample.fragments.ForecastFragment;
 import com.mttnow.forecastexample.presenter.ForecastPresenter;
 import com.mttnow.forecastexample.presenter.ForecastPresenterImp;
+import com.mttnow.forecastexample.utils.DatabaseUtils;
 import com.mttnow.forecastexample.utils.FragmentTransactionInterface;
 import com.mttnow.forecastexample.view.ForecastView;
 
@@ -32,6 +36,11 @@ public class MainActivity extends AppCompatActivity implements FragmentTransacti
 //        setupActionBar();
         if (savedInstanceState == null)
             changeFragment(ForecastFragment.getInstance());
+
+        int count = DatabaseUtils.getInstance(this).count().size();
+        Data forecast = DatabaseUtils.getInstance(this).count().get(0);
+        String max = forecast.getWeather().get(0).getMaxtempC();
+        Log.d("ad", "sd");
     }
 
 

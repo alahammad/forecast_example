@@ -1,9 +1,11 @@
 package com.mttnow.forecastexample.entites;
 
+import io.realm.RealmObject;
+
 /**
  * Created by alahammad on 12/2/15.
  */
-public class Request {
+public class Request extends RealmObject {
 
     private String query;
 
@@ -25,8 +27,5 @@ public class Request {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return "ClassPojo [query = " + query + ", type = " + type + "]";
-    }
+
 }

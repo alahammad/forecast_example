@@ -17,18 +17,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         showSplash();
-        addDefaultCities();
     }
 
-    private void addDefaultCities() {
-        DatabaseUtils databaseUtils = DatabaseUtils.getInstance(this);
-        databaseUtils.clearWeatherTable();
-        String[] cities = getResources().getStringArray(R.array.default_cities);
-        for (String city : cities) {
-            City cityObject = new City(city, "0");
-            databaseUtils.create(cityObject);
-        }
-    }
 
     private void showSplash() {
         Handler handler = new Handler();

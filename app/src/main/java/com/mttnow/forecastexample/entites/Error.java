@@ -1,9 +1,11 @@
 package com.mttnow.forecastexample.entites;
 
+import io.realm.RealmObject;
+
 /**
  * Created by alahammad on 12/3/15.
  */
-public class Error {
+public class Error extends RealmObject {
 
     private String msg;
 
@@ -15,8 +17,5 @@ public class Error {
         this.msg = msg;
     }
 
-    @Override
-    public String toString() {
-        return "ClassPojo [msg = " + msg + "]";
-    }
+
 }

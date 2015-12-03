@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mttnow.forecastexample.R;
+import com.mttnow.forecastexample.entites.Data;
 import com.mttnow.forecastexample.entites.Forecast;
 import com.mttnow.forecastexample.entites.WeatherWrapper;
+import com.mttnow.forecastexample.utils.MyParcelable;
 
 import org.parceler.Parcels;
 
+import butterknife.ButterKnife;
 import io.realm.RealmResults;
 
 /**
@@ -22,13 +25,12 @@ import io.realm.RealmResults;
 public class ForecastDetailsFragment extends Fragment {
 
     public static final String FORECAST_KEY = "selected_forecast";
-    private RealmResults<WeatherWrapper> mSelectedForecast;
+    private Data mSelectedForecast;
 
-    public static ForecastDetailsFragment getInstance(WeatherWrapper[] forecast) {
+    public static ForecastDetailsFragment getInstance(Data forecast) {
         ForecastDetailsFragment forecastDetailsFragment = new ForecastDetailsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(FORECAST_KEY, Parcels.wrap(forecast));
-        forecastDetailsFragment.setArguments(bundle);
+
+        MyParcelable.getInstance().setObject(forecast);
         return forecastDetailsFragment;
     }
 
@@ -42,6 +44,7 @@ public class ForecastDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forecastdetails, container, false);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -49,7 +52,7 @@ public class ForecastDetailsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
-        mSelectedForecast = Parcels.unwrap(getArguments().getParcelable(FORECAST_KEY));
+        mSelectedForecast = (Data) MyParcelable.getInstance().getObject();
         Log.d("ha", "stiop");
     }
 
