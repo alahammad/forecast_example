@@ -1,10 +1,18 @@
 <resources>
-    <string name="app_name">forecastExample</string>
+    <string name="app_name">Your Weather Forecast</string>
     <string name="action_settings">Settings</string>
 
 
-    <string name="api_key">90ca2d1b716e197eb28484c669029</string>
+    <string name="internetconnection">Sorry, no Internet connectivity detected. Please reconnect and try later.</string>
 
+    <string name="api_key">871ea84276f916592bb1b3bdedaa9</string>
+    <!-- 90ca2d1b716e197eb28484c669029   d09a71fb2164c4270fa4e6a0fda7d -->
+
+    <!-- premium  871ea84276f916592bb1b3bdedaa9 -->
+    <string name="font_name">quicksand.otf</string>
+
+
+    <string name="api_error">Opps, something happen.. please try later</string>
 
     <string-array name="default_cities">
         <item>Dublin</item>
