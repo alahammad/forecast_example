@@ -10,13 +10,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
 
 import com.mttnow.forecastexample.R;
+import com.mttnow.forecastexample.adapters.CitiesResultAdapter;
+import com.mttnow.forecastexample.adapters.CityTouchHelper;
 import com.mttnow.forecastexample.entites.Data;
 import com.mttnow.forecastexample.presenter.ForecastPresenter;
 import com.mttnow.forecastexample.presenter.ForecastPresenterImp;
@@ -57,6 +62,8 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
 
     FragmentTransactionInterface fragmentTransactionInterface;
 
+
+    ItemTouchHelper.Callback callback;
 
     @Override
     public void onAttach(Context context) {
@@ -100,8 +107,15 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
         mAdapter.setRealmAdapter(mRealmAdapter);
         mRecycleView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
-
+        callback = new CityTouchHelper(mAdapter, getActivity());
+//        ItemTouchHelper helper = new ItemTouchHelper(callback);
+//        helper.attachToRecyclerView(mRecycleView);
+        configSwipe();
         refresh();
+
+    }
+
+    private void configSwipe() {
 
     }
 
@@ -141,4 +155,5 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
     public void onItemClick(View view, int position) {
         fragmentTransactionInterface.changeFragment(ForecastDetailsFragment.getInstance(mAdapter.getItem(position).getCityName()), true);
     }
+
 }

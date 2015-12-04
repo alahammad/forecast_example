@@ -1,20 +1,22 @@
 package com.mttnow.forecastexample.fragments;
 
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.github.pwittchen.weathericonview.WeatherIconView;
 import com.mttnow.forecastexample.R;
 import com.mttnow.forecastexample.entites.Data;
 import com.mttnow.forecastexample.presenter.ForecastDetailsPresenter;
 import com.mttnow.forecastexample.presenter.ForecastDetailsPresenterImp;
+import com.mttnow.forecastexample.utils.Utils;
 import com.mttnow.forecastexample.view.ForecastDetailsView;
 
 import org.w3c.dom.Text;
@@ -36,8 +38,6 @@ public class ForecastDetailsFragment extends Fragment implements ForecastDetails
     @Bind(R.id.pb_details)
     ProgressBar mLoading;
 
-    @Bind(R.id.weatherIcon)
-    WeatherIconView mWeather;
 
     @Bind(R.id.tv_day1_date)
     TextView mDay1Date;
@@ -66,6 +66,20 @@ public class ForecastDetailsFragment extends Fragment implements ForecastDetails
 
     @Bind(R.id.tv_city_temp)
     TextView mTemp;
+
+
+    @Bind(R.id.iv_day1)
+    ImageView mDay1Image;
+
+
+    @Bind(R.id.iv_day2)
+    ImageView mDay2Image;
+
+    @Bind(R.id.iv_day3)
+    ImageView mDay3Image;
+
+    @Bind(R.id.iv_day4)
+    ImageView mDay4Image;
 
     private ForecastDetailsPresenter mPresenter;
 
@@ -101,9 +115,6 @@ public class ForecastDetailsFragment extends Fragment implements ForecastDetails
         mSelectedCity = getArguments().getString(FORECAST_KEY);
         mCityName.setText(mSelectedCity);
         mPresenter.loadForecast(mSelectedCity, getActivity());
-        mWeather.setIconResource(getString(R.string.wi_day_sunny));
-        mWeather.setIconSize(50);
-        mWeather.setIconColor(Color.BLACK);
     }
 
 
@@ -120,37 +131,33 @@ public class ForecastDetailsFragment extends Fragment implements ForecastDetails
     @Override
     public void dataLoaded(Data data) {
         mCityName.setText(data.getRequest().get(0).getQuery());
-        String temp = getMidTemp(data.getWeather().get(0).getMintempC(), data.getWeather().get(0).getMaxtempC());
+        mTime.setText(data.getWeather().get(0).getDate());
+        String temp = Utils.getMidTemp(data.getWeather().get(0).getMintempC(), data.getWeather().get(0).getMaxtempC());
         mTemp.setText(temp);
 
         mDay1Date.setText(data.getWeather().get(1).getDate());
-        temp = getMidTemp(data.getWeather().get(1).getMintempC(), data.getWeather().get(1).getMaxtempC());
+        temp = Utils.getMidTemp(data.getWeather().get(1).getMintempC(), data.getWeather().get(1).getMaxtempC());
         mDay1Temp.setText(temp + " \u2103");
+        Utils.loadImage(getActivity(), mDay1Image, data.getWeather().get(1).getHourly().get(0).getWeatherIconUrl().get(0).getValue());
 
         mDay2Date.setText(data.getWeather().get(2).getDate());
-        temp = getMidTemp(data.getWeather().get(2).getMintempC(), data.getWeather().get(2).getMaxtempC());
+        temp = Utils.getMidTemp(data.getWeather().get(2).getMintempC(), data.getWeather().get(2).getMaxtempC());
         mDay2Temp.setText(temp + " \u2103");
+        Utils.loadImage(getActivity(), mDay2Image, data.getWeather().get(2).getHourly().get(0).getWeatherIconUrl().get(0).getValue());
+
 
         mDay3Date.setText(data.getWeather().get(3).getDate());
-        temp = getMidTemp(data.getWeather().get(3).getMintempC(), data.getWeather().get(3).getMaxtempC());
+        temp = Utils.getMidTemp(data.getWeather().get(3).getMintempC(), data.getWeather().get(3).getMaxtempC());
         mDay3Temp.setText(temp + " \u2103");
-
+        Utils.loadImage(getActivity(), mDay3Image, data.getWeather().get(3).getHourly().get(0).getWeatherIconUrl().get(0).getValue());
 
         mDay4Date.setText(data.getWeather().get(4).getDate());
-        temp = getMidTemp(data.getWeather().get(4).getMintempC(), data.getWeather().get(4).getMaxtempC());
+        temp = Utils.getMidTemp(data.getWeather().get(4).getMintempC(), data.getWeather().get(4).getMaxtempC());
         mDay4Temp.setText(temp + " \u2103");
+        Utils.loadImage(getActivity(), mDay4Image, data.getWeather().get(4).getHourly().get(0).getWeatherIconUrl().get(0).getValue());
+
     }
 
 
-    // find mid temp
-    private String getMidTemp(String min, String max) {
-        try {
-            int minTemp = Integer.valueOf(min);
-            int maxTemp = Integer.valueOf(max);
-            return String.valueOf((maxTemp + minTemp) / 2);
-        } catch (ClassCastException ex) {
 
-        }
-        return max;
-    }
 }

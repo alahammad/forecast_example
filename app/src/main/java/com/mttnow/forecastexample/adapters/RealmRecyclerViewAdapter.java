@@ -30,4 +30,6 @@ public abstract class RealmRecyclerViewAdapter<T extends RealmObject> extends Re
     public RealmBaseAdapter<T> getRealmAdapter() {
         return realmBaseAdapter;
     }
+
+
 }

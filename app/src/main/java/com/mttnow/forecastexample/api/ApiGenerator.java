@@ -30,7 +30,7 @@ public class ApiGenerator {
             .create();
 
 
-    public static final String API_BASE_URL = "http://api.worldweatheronline.com/free/v2/";
+    public static final String API_BASE_URL = "http://api.worldweatheronline.com/premium/v1/";
 
     private static OkHttpClient httpClient = new OkHttpClient();
     private static Retrofit.Builder builder =

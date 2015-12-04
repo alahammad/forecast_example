@@ -33,6 +33,13 @@ public class City extends RealmObject {
         this.temp = temp;
     }
 
+
+    public City(long id, String cityName, String temp) {
+        this.id = id;
+        this.cityName = cityName;
+        this.temp = temp;
+    }
+
     public String getCityName() {
         return cityName;
     }

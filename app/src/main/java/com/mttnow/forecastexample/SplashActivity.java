@@ -11,6 +11,7 @@ import com.mttnow.forecastexample.entites.Request;
 import com.mttnow.forecastexample.presenter.ForecastPresenter;
 import com.mttnow.forecastexample.presenter.ForecastPresenterImp;
 import com.mttnow.forecastexample.utils.DatabaseUtils;
+import com.mttnow.forecastexample.utils.Utils;
 
 import io.realm.RealmList;
 
@@ -27,11 +28,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void addDefaultCities() {
-        DatabaseUtils databaseUtils = DatabaseUtils.getInstance(this);
-        String[] cities = getResources().getStringArray(R.array.default_cities);
-        for (String city : cities) {
-            databaseUtils.createCity(new City(city, ""));
-        }
+        Utils.addDefaultCities(this);
     }
 
 

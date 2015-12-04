@@ -64,6 +64,6 @@ public class MainActivity extends AppCompatActivity implements FragmentTransacti
     protected void onResume() {
         super.onResume();
         if (!Utils.isOnline(this))
-            DialogsUtils.getInstance().showDialog(this, "No internet, please check");
+            DialogsUtils.getInstance().showDialog(this, getString(R.string.internetconnection));
     }
 }

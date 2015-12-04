@@ -123,13 +123,14 @@ public class AddForecastFragment extends Fragment implements AddForecastView, Se
     @Override
     public void loadComplete(CitiesResultAdapter adapter) {
         // incase data returned one item no need to select, just add to list
+        mAdapter = adapter;
         if (adapter.getItemCount() == 1) {
+            int size = mAdapter.getItemCount();
             City city = mAdapter.getItem(0);
             DatabaseUtils.getInstance(getActivity()).createCity(city);
             getActivity().getSupportFragmentManager().popBackStack();
         } else {
             mRecyclerView.setAdapter(adapter);
-            mAdapter = adapter;
             mAdapter.setOnItemClickListener(new CitiesResultAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {

@@ -20,11 +20,9 @@ public class DialogsUtils {
 
     public void showDialog(Context context, String msg) {
         new MaterialDialog.Builder(context)
-                .title("title")
+                .title(context.getString(R.string.app_name))
                 .content(msg)
-                .positiveText("agree")
-                .negativeText("disagree")
-                .neutralText("more_info")
+                .positiveText("ok")
                 .show();
     }
 

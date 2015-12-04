@@ -19,6 +19,7 @@ public class DatabaseUtils {
 
     public DatabaseUtils(Context context) {
         _realm = Realm.getInstance(context);
+        _realm.setAutoRefresh(true);
     }
 
     // singleton design pattern
@@ -40,7 +41,8 @@ public class DatabaseUtils {
 
     public void createCity(City city) {
         if (!checkIfCityExists(city.getCityName())) {
-            // realm doesn't support auto crementing
+
+            // realm doesn't support auto incremental
             Number number = _realm.where(City.class).max("id");
             int id = number == null ? 0 : number.intValue() + 1;
             city.setId(id);
@@ -64,32 +66,6 @@ public class DatabaseUtils {
         return query.findAll();
     }
 
-//    public void createWeatherForCity(WeatherWrapper[] weatherWrapper, long cityID) {
-//        for (WeatherWrapper weather : weatherWrapper
-//                ) {
-//            Number number = _realm.where(WeatherWrapper.class).max("id");
-//            int id = number == null ? 0 : number.intValue() + 1;
-//            weather.setId(id);
-//            _realm.beginTransaction();
-//            WeatherWrapper cityRealm = _realm.copyToRealm(weather);
-//            _realm.commitTransaction();
-//        }
-//
-//    }
-//
-//    public RealmResults<WeatherWrapper> getWeathers(long city) {
-//        RealmQuery<WeatherWrapper> query = _realm.where(WeatherWrapper.class);
-//        query.equalTo("cityID", city);
-//        return query.findAll();
-//    }
-//
-//    public void clearWeatherTable() {
-//        _realm.beginTransaction();
-//        _realm.clear(WeatherWrapper.class);
-//        _realm.commitTransaction();
-//    }
-
-
     public void createData(Data data) {
         Number number = _realm.where(Data.class).max("id");
         int id = number == null ? 0 : number.intValue() + 1;
@@ -100,9 +76,12 @@ public class DatabaseUtils {
         _realm.commitTransaction();
     }
 
-    public RealmResults<Data> count() {
-        RealmQuery<Data> query = _realm.where(Data.class);
-        return query.findAll();
+
+    public void deleteCity(City city) {
+        _realm.beginTransaction();
+        city.removeFromRealm();
+
+        _realm.commitTransaction();
     }
 
 }

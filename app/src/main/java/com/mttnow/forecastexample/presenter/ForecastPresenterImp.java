@@ -11,6 +11,7 @@ import com.mttnow.forecastexample.api.ForecastApi;
 import com.mttnow.forecastexample.entites.*;
 import com.mttnow.forecastexample.utils.DatabaseUtils;
 import com.mttnow.forecastexample.utils.DialogsUtils;
+import com.mttnow.forecastexample.utils.Utils;
 import com.mttnow.forecastexample.view.ForecastView;
 
 import retrofit.Call;
@@ -49,7 +50,7 @@ public class ForecastPresenterImp implements ForecastPresenter {
                         DatabaseUtils.getInstance(context).createData(response.body().getData());
                         City city = adapter.getItem(index);
 //                            DatabaseUtils.getInstance(context).createData(response.body().getData());
-                        String temp = response.body().getData().getWeather().get(0).getMaxtempC();
+                        String temp = Utils.getMidTemp(response.body().getData().getWeather().get(0).getMintempC(), response.body().getData().getWeather().get(0).getMaxtempC());
                         DatabaseUtils.getInstance(context).copyOrUpdate(city, temp);
                         adapter.notifyDataSetChanged();
                     }
