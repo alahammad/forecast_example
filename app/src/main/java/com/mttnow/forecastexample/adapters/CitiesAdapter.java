@@ -10,10 +10,13 @@ import com.mttnow.forecastexample.R;
 import com.mttnow.forecastexample.entites.City;
 import com.mttnow.forecastexample.entites.Data;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by alahammad on 12/3/15.
  */
-public final class CitiesAdapter extends RealmRecyclerViewAdapter<Data> {
+public final class CitiesAdapter extends RealmRecyclerViewAdapter<City> {
 
     public interface OnItemClickListener {
         public void onItemClick(View view, int position);
@@ -22,13 +25,16 @@ public final class CitiesAdapter extends RealmRecyclerViewAdapter<Data> {
     private OnItemClickListener mItemClickListener;
 
 
-    private class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView tvName, tvTemp;
+     class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @Bind(R.id.tv_city_name)
+         TextView tvName;
+
+        @Bind(R.id.tv_temp)
+         TextView tvTemp;
 
         public EventViewHolder(View view) {
             super(view);
-            tvName = (TextView) view.findViewById(R.id.tv_city_name);
-            tvTemp = (TextView) view.findViewById(R.id.tv_temp);
+            ButterKnife.bind(this,view);
             view.setOnClickListener(this);
         }
 
@@ -53,9 +59,9 @@ public final class CitiesAdapter extends RealmRecyclerViewAdapter<Data> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         EventViewHolder evh = (EventViewHolder) viewHolder;
-        Data city = getItem(i);
-        evh.tvName.setText(city.getRequest().get(0).getQuery());
-//        evh.tvTemp.setText(city.getWeather().get(0).getMaxtempC());
+        City city = getItem(i);
+        evh.tvName.setText(city.getCityName());
+        evh.tvTemp.setText(city.getTemp());
     }
 
     /* The inner RealmBaseAdapter

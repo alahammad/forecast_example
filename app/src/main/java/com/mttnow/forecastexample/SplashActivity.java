@@ -27,19 +27,11 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void addDefaultCities() {
+        DatabaseUtils databaseUtils = DatabaseUtils.getInstance(this);
         String[] cities = getResources().getStringArray(R.array.default_cities);
-        Data data = null;
         for (String city : cities) {
-            data = new Data();
-            Request request = new Request();
-            request.setQuery(city);
-            RealmList<Request> requests = new RealmList<Request>();
-            requests.add(request);
-            data.setRequest(requests);
-            DatabaseUtils.getInstance(this).createData(data);
+            databaseUtils.createCity(new City(city, ""));
         }
-
-
     }
 
 

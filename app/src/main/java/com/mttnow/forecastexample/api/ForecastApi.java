@@ -1,6 +1,7 @@
 package com.mttnow.forecastexample.api;
 
 import com.mttnow.forecastexample.entites.Forecast;
+import com.mttnow.forecastexample.entites.Search;
 
 import retrofit.Call;
 import retrofit.http.GET;
@@ -16,5 +17,11 @@ public interface ForecastApi {
             @Query("q") String country,
             @Query("key") String apiKey
     );
+
+
+    @GET("search.ashx?format=json")
+    Call<Search> searchForecast(
+            @Query("q") String country,
+            @Query("key") String apiKey);
 
 }

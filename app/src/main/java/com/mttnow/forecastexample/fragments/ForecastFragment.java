@@ -2,6 +2,7 @@ package com.mttnow.forecastexample.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -32,7 +33,7 @@ import butterknife.OnClick;
 /**
  * Created by alahammad on 12/3/15.
  */
-public class ForecastFragment extends Fragment implements ForecastView, SwipeRefreshLayout.OnRefreshListener {
+public class ForecastFragment extends Fragment implements ForecastView, SwipeRefreshLayout.OnRefreshListener, CitiesAdapter.OnItemClickListener {
 
 
     @Bind(R.id.progressBar)
@@ -93,23 +94,14 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
         setupActionBar();
         mAdapter = new CitiesAdapter();
 
-        refresh();
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        mRealmAdapter = new RealmCitiesAdapter(getActivity().getApplicationContext(), DatabaseUtils.getInstance(getActivity()).count(), true);
+        mSwipeList.setOnRefreshListener(this);
+        mRealmAdapter = new RealmCitiesAdapter(getActivity().getApplicationContext(), DatabaseUtils.getInstance(getActivity()).getAllCities(), true);
         mAdapter.setRealmAdapter(mRealmAdapter);
         mRecycleView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new CitiesAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Data weatherWrapper = mAdapter.getRealmAdapter().getItem(position);
-//                long id = weatherWrapper.getId();
-//                RealmResults<WeatherWrapper> weatherWrappers = DatabaseUtils.getInstance(getActivity()).getWeathers(id);
-//
-                fragmentTransactionInterface.changeFragment(ForecastDetailsFragment.getInstance(weatherWrapper), true);
-            }
-        });
+        mAdapter.setOnItemClickListener(this);
 
+        refresh();
 
     }
 
@@ -125,8 +117,6 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
 
     @OnClick(R.id.fab)
     public void floatActionButton() {
-//           mPresenter.loadForecast("?>", getActivity(),mAdapter);
-//        mRealmAdapter.notifyDataSetChanged();
         fragmentTransactionInterface.changeFragment(AddForecastFragment.getInstance(), true);
     }
 
@@ -139,7 +129,7 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
 
     @Override
     public void startLoading() {
-
+        mSwipeList.setRefreshing(true);
     }
 
     @Override
@@ -147,4 +137,8 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
         refresh();
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        fragmentTransactionInterface.changeFragment(ForecastDetailsFragment.getInstance(mAdapter.getItem(position).getCityName()), true);
+    }
 }

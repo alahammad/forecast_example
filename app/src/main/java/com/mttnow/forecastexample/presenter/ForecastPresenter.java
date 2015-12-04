@@ -10,7 +10,6 @@ import com.mttnow.forecastexample.adapters.RealmCitiesAdapter;
  */
 public interface ForecastPresenter {
 
-    public void loadForecast(String country, Context context, CitiesAdapter adapter);
 
     public void loadForecasts(Context context, CitiesAdapter adapter);
 

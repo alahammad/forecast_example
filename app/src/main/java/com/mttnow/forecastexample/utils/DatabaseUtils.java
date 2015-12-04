@@ -38,7 +38,7 @@ public class DatabaseUtils {
         _realm.commitTransaction();
     }
 
-    public void create(City city) {
+    public void createCity(City city) {
         if (!checkIfCityExists(city.getCityName())) {
             // realm doesn't support auto crementing
             Number number = _realm.where(City.class).max("id");

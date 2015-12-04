@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,10 +16,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mttnow.forecastexample.R;
+import com.mttnow.forecastexample.adapters.CitiesAdapter;
+import com.mttnow.forecastexample.adapters.CitiesResultAdapter;
+import com.mttnow.forecastexample.entites.City;
+import com.mttnow.forecastexample.presenter.AddForecastPresenter;
+import com.mttnow.forecastexample.presenter.AddForecastPresenterImp;
 import com.mttnow.forecastexample.utils.DatabaseUtils;
+import com.mttnow.forecastexample.view.AddForecastView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,11 +34,21 @@ import butterknife.ButterKnife;
 /**
  * Created by alahammad on 12/3/15.
  */
-public class AddForecastFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class AddForecastFragment extends Fragment implements AddForecastView, SearchView.OnQueryTextListener {
 
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
+    @Bind(R.id.progressBar)
+    ProgressBar mLoading;
+
+    @Bind(R.id.result_rv)
+    RecyclerView mRecyclerView;
+
+    AddForecastPresenter mPresenter;
+
+    CitiesResultAdapter mAdapter;
 
     public static AddForecastFragment getInstance() {
         AddForecastFragment addForecastFragment = new AddForecastFragment();
@@ -54,13 +74,15 @@ public class AddForecastFragment extends Fragment implements SearchView.OnQueryT
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupActionBar();
+        mPresenter = new AddForecastPresenterImp(this);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 
 
     private void setupActionBar() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
     }
-
 
 
     @Override
@@ -79,13 +101,43 @@ public class AddForecastFragment extends Fragment implements SearchView.OnQueryT
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Toast.makeText(getActivity(), query, Toast.LENGTH_LONG).show();
-
+        mPresenter.searchCityForecast(query, getActivity());
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
+    }
+
+    @Override
+    public void stopLoading() {
+        mLoading.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void startLoading() {
+        mLoading.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void loadComplete(CitiesResultAdapter adapter) {
+        // incase data returned one item no need to select, just add to list
+        if (adapter.getItemCount() == 1) {
+            City city = mAdapter.getItem(0);
+            DatabaseUtils.getInstance(getActivity()).createCity(city);
+            getActivity().getSupportFragmentManager().popBackStack();
+        } else {
+            mRecyclerView.setAdapter(adapter);
+            mAdapter = adapter;
+            mAdapter.setOnItemClickListener(new CitiesResultAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    City city = mAdapter.getItem(position);
+                    DatabaseUtils.getInstance(getActivity()).createCity(city);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+            });
+        }
     }
 }

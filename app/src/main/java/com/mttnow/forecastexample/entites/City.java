@@ -1,6 +1,5 @@
 package com.mttnow.forecastexample.entites;
 
-import org.parceler.Parcel;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
@@ -24,6 +23,10 @@ public class City extends RealmObject {
     public City() {
     }
 
+
+    public City(String cityName) {
+        this.cityName = cityName;
+    }
 
     public City(String cityName, String temp) {
         this.cityName = cityName;

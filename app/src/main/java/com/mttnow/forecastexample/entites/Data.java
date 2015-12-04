@@ -1,7 +1,7 @@
 package com.mttnow.forecastexample.entites;
 
 
-import org.parceler.Parcel;
+import android.os.Parcel;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -10,11 +10,6 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by alahammad on 12/2/15.
  */
-
-@Parcel(
-        value = Parcel.Serialization.BEAN,
-        analyze = {Data.class})
-
 
 public class Data extends RealmObject {
 

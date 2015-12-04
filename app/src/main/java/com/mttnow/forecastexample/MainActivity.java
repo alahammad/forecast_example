@@ -17,7 +17,9 @@ import com.mttnow.forecastexample.fragments.ForecastFragment;
 import com.mttnow.forecastexample.presenter.ForecastPresenter;
 import com.mttnow.forecastexample.presenter.ForecastPresenterImp;
 import com.mttnow.forecastexample.utils.DatabaseUtils;
+import com.mttnow.forecastexample.utils.DialogsUtils;
 import com.mttnow.forecastexample.utils.FragmentTransactionInterface;
+import com.mttnow.forecastexample.utils.Utils;
 import com.mttnow.forecastexample.view.ForecastView;
 
 import butterknife.Bind;
@@ -37,8 +39,6 @@ public class MainActivity extends AppCompatActivity implements FragmentTransacti
         if (savedInstanceState == null)
             changeFragment(ForecastFragment.getInstance());
 
-        int count = DatabaseUtils.getInstance(this).count().size();
-        Log.d("ad", "sd");
     }
 
 
@@ -50,12 +50,20 @@ public class MainActivity extends AppCompatActivity implements FragmentTransacti
     @Override
     public void changeFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left,
-//                R.anim.exit_to_right);
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left,
+                R.anim.exit_to_right);
         fragmentTransaction.replace(R.id.container, fragment);
 
         if (addToBackStack)
             fragmentTransaction.addToBackStack(fragment.getClass().getName());
         fragmentTransaction.commit();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!Utils.isOnline(this))
+            DialogsUtils.getInstance().showDialog(this, "No internet, please check");
     }
 }
