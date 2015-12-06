@@ -28,6 +28,8 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements FragmentTransactionInterface {
 
+    private Fragment mFragment;
+    private static final String TAG = "Fragment_tag";
 
 
     @Override
@@ -35,10 +37,12 @@ public class MainActivity extends AppCompatActivity implements FragmentTransacti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-//        setupActionBar();
         if (savedInstanceState == null)
-            changeFragment(ForecastFragment.getInstance());
+            mFragment = ForecastFragment.getInstance();
+        else
+            mFragment = getSupportFragmentManager().findFragmentByTag(TAG);
 
+        changeFragment(mFragment);
     }
 
 
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements FragmentTransacti
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.enter_from_left,
                 R.anim.exit_to_right);
-        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.replace(R.id.container, fragment, TAG);
 
         if (addToBackStack)
             fragmentTransaction.addToBackStack(fragment.getClass().getName());

@@ -49,7 +49,6 @@ public class ForecastPresenterImp implements ForecastPresenter {
                     if (response.isSuccess()) {
                         DatabaseUtils.getInstance(context).createData(response.body().getData());
                         City city = adapter.getItem(index);
-//                            DatabaseUtils.getInstance(context).createData(response.body().getData());
                         String temp = Utils.getMidTemp(response.body().getData().getWeather().get(0).getMintempC(), response.body().getData().getWeather().get(0).getMaxtempC());
                         DatabaseUtils.getInstance(context).copyOrUpdate(city, temp);
                         adapter.notifyDataSetChanged();
@@ -58,7 +57,7 @@ public class ForecastPresenterImp implements ForecastPresenter {
 
                 @Override
                 public void onFailure(Throwable t) {
-                    Log.d("hammad", "GHH");
+                    DialogsUtils.getInstance().showDialog(context, context.getString(R.string.api_error));
                 }
             });
         }

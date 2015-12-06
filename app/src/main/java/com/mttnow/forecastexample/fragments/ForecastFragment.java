@@ -2,7 +2,6 @@ package com.mttnow.forecastexample.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,13 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 
 import com.mttnow.forecastexample.R;
-import com.mttnow.forecastexample.adapters.CitiesResultAdapter;
-import com.mttnow.forecastexample.adapters.CityTouchHelper;
-import com.mttnow.forecastexample.entites.Data;
 import com.mttnow.forecastexample.presenter.ForecastPresenter;
 import com.mttnow.forecastexample.presenter.ForecastPresenterImp;
 import com.mttnow.forecastexample.adapters.CitiesAdapter;
@@ -41,8 +36,6 @@ import butterknife.OnClick;
 public class ForecastFragment extends Fragment implements ForecastView, SwipeRefreshLayout.OnRefreshListener, CitiesAdapter.OnItemClickListener {
 
 
-    @Bind(R.id.progressBar)
-    ProgressBar mLoadingProgress;
 
 
     ForecastPresenter mPresenter;
@@ -65,6 +58,7 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
 
     ItemTouchHelper.Callback callback;
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -84,7 +78,17 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        prepareAdapters();
     }
+
+    private void prepareAdapters() {
+        mPresenter = new ForecastPresenterImp(this);
+        mAdapter = new CitiesAdapter(getActivity());
+        mRealmAdapter = new RealmCitiesAdapter(getActivity().getApplicationContext(), DatabaseUtils.getInstance(getActivity()).getAllCities(), true);
+        mAdapter.setRealmAdapter(mRealmAdapter);
+        mAdapter.setOnItemClickListener(this);
+    }
+
 
     @Nullable
     @Override
@@ -97,29 +101,39 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter = new ForecastPresenterImp(this);
         setupActionBar();
-        mAdapter = new CitiesAdapter();
+        init();
+        configSwipe();
+        if (savedInstanceState == null) {
+            refresh();
+        }
+    }
 
+    private void init() {
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mSwipeList.setOnRefreshListener(this);
-        mRealmAdapter = new RealmCitiesAdapter(getActivity().getApplicationContext(), DatabaseUtils.getInstance(getActivity()).getAllCities(), true);
-        mAdapter.setRealmAdapter(mRealmAdapter);
         mRecycleView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(this);
-        callback = new CityTouchHelper(mAdapter, getActivity());
-//        ItemTouchHelper helper = new ItemTouchHelper(callback);
-//        helper.attachToRecyclerView(mRecycleView);
-        configSwipe();
-        refresh();
-
     }
 
     private void configSwipe() {
+        RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                // Could hide open views here if you wanted. //
+            }
+        };
+
+        mRecycleView.setOnScrollListener(onScrollListener);
 
     }
 
-    private void refresh() {
+    public void refresh() {
 
         mPresenter.loadForecasts(getActivity(), mAdapter);
     }
@@ -137,12 +151,13 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
 
     @Override
     public void stopLoading() {
-        mLoadingProgress.setVisibility(View.GONE);
+        if (mSwipeList != null)
         mSwipeList.setRefreshing(false);
     }
 
     @Override
     public void startLoading() {
+        if (mSwipeList != null)
         mSwipeList.setRefreshing(true);
     }
 
@@ -156,4 +171,16 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
         fragmentTransactionInterface.changeFragment(ForecastDetailsFragment.getInstance(mAdapter.getItem(position).getCityName()), true);
     }
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        fragmentTransactionInterface = null;
+    }
 }

@@ -60,6 +60,8 @@ public class AddForecastFragment extends Fragment implements AddForecastView, Se
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         setHasOptionsMenu(true);
+        mPresenter = new AddForecastPresenterImp(this);
+        mAdapter = new CitiesResultAdapter(new City[0]);
     }
 
     @Nullable
@@ -74,9 +76,8 @@ public class AddForecastFragment extends Fragment implements AddForecastView, Se
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupActionBar();
-        mPresenter = new AddForecastPresenterImp(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 
@@ -92,9 +93,9 @@ public class AddForecastFragment extends Fragment implements AddForecastView, Se
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
-        searchView.setQueryHint("Search");
+        searchView.setQueryHint(getString(R.string.search_hint));
         searchItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-
+        searchItem.expandActionView();
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -124,13 +125,12 @@ public class AddForecastFragment extends Fragment implements AddForecastView, Se
     public void loadComplete(CitiesResultAdapter adapter) {
         // incase data returned one item no need to select, just add to list
         mAdapter = adapter;
-        if (adapter.getItemCount() == 1) {
-            int size = mAdapter.getItemCount();
+        if (mAdapter.getItemCount() == 1) {
             City city = mAdapter.getItem(0);
             DatabaseUtils.getInstance(getActivity()).createCity(city);
             getActivity().getSupportFragmentManager().popBackStack();
         } else {
-            mRecyclerView.setAdapter(adapter);
+            mRecyclerView.setAdapter(mAdapter);
             mAdapter.setOnItemClickListener(new CitiesResultAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {

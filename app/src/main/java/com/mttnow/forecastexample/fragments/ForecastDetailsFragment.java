@@ -86,6 +86,8 @@ public class ForecastDetailsFragment extends Fragment implements ForecastDetails
     public static final String FORECAST_KEY = "selected_forecast";
     private String mSelectedCity;
 
+    private Data mData;
+
     public static ForecastDetailsFragment getInstance(String cityName) {
         ForecastDetailsFragment forecastDetailsFragment = new ForecastDetailsFragment();
         Bundle bundle = new Bundle();
@@ -98,6 +100,9 @@ public class ForecastDetailsFragment extends Fragment implements ForecastDetails
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        mSelectedCity = getArguments().getString(FORECAST_KEY);
+        mPresenter = new ForecastDetailsPresenterImp(this);
+        mPresenter.loadForecast(mSelectedCity, getActivity());
     }
 
     @Nullable
@@ -111,53 +116,59 @@ public class ForecastDetailsFragment extends Fragment implements ForecastDetails
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter = new ForecastDetailsPresenterImp(this);
-        mSelectedCity = getArguments().getString(FORECAST_KEY);
-        mCityName.setText(mSelectedCity);
-        mPresenter.loadForecast(mSelectedCity, getActivity());
+        fillViews();
     }
 
 
     @Override
     public void stopLoading() {
-        mLoading.setVisibility(View.GONE);
+        if (mLoading != null)
+            mLoading.setVisibility(View.GONE);
     }
 
     @Override
     public void startLoading() {
-        mLoading.setVisibility(View.VISIBLE);
+        if (mLoading != null)
+            mLoading.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void dataLoaded(Data data) {
-        mCityName.setText(data.getRequest().get(0).getQuery());
-        mTime.setText(data.getWeather().get(0).getDate());
-        String temp = Utils.getMidTemp(data.getWeather().get(0).getMintempC(), data.getWeather().get(0).getMaxtempC());
-        mTemp.setText(temp);
-
-        mDay1Date.setText(data.getWeather().get(1).getDate());
-        temp = Utils.getMidTemp(data.getWeather().get(1).getMintempC(), data.getWeather().get(1).getMaxtempC());
-        mDay1Temp.setText(temp + " \u2103");
-        Utils.loadImage(getActivity(), mDay1Image, data.getWeather().get(1).getHourly().get(0).getWeatherIconUrl().get(0).getValue());
-
-        mDay2Date.setText(data.getWeather().get(2).getDate());
-        temp = Utils.getMidTemp(data.getWeather().get(2).getMintempC(), data.getWeather().get(2).getMaxtempC());
-        mDay2Temp.setText(temp + " \u2103");
-        Utils.loadImage(getActivity(), mDay2Image, data.getWeather().get(2).getHourly().get(0).getWeatherIconUrl().get(0).getValue());
-
-
-        mDay3Date.setText(data.getWeather().get(3).getDate());
-        temp = Utils.getMidTemp(data.getWeather().get(3).getMintempC(), data.getWeather().get(3).getMaxtempC());
-        mDay3Temp.setText(temp + " \u2103");
-        Utils.loadImage(getActivity(), mDay3Image, data.getWeather().get(3).getHourly().get(0).getWeatherIconUrl().get(0).getValue());
-
-        mDay4Date.setText(data.getWeather().get(4).getDate());
-        temp = Utils.getMidTemp(data.getWeather().get(4).getMintempC(), data.getWeather().get(4).getMaxtempC());
-        mDay4Temp.setText(temp + " \u2103");
-        Utils.loadImage(getActivity(), mDay4Image, data.getWeather().get(4).getHourly().get(0).getWeatherIconUrl().get(0).getValue());
-
+        mData = data;
+        fillViews();
     }
 
+
+    private void fillViews() {
+        if (mData != null) {
+            mCityName.setText(mData.getRequest().get(0).getQuery());
+            mTime.setText(mData.getWeather().get(0).getDate());
+            String temp = Utils.getMidTemp(mData.getWeather().get(0).getMintempC(), mData.getWeather().get(0).getMaxtempC());
+            mTemp.setText(temp);
+
+            mDay1Date.setText(mData.getWeather().get(1).getDate());
+            temp = Utils.getMidTemp(mData.getWeather().get(1).getMintempC(), mData.getWeather().get(1).getMaxtempC());
+            mDay1Temp.setText(temp + " \u2103");
+            Utils.loadImage(getActivity(), mDay1Image, mData.getWeather().get(1).getHourly().get(0).getWeatherIconUrl().get(0).getValue());
+
+            mDay2Date.setText(mData.getWeather().get(2).getDate());
+            temp = Utils.getMidTemp(mData.getWeather().get(2).getMintempC(), mData.getWeather().get(2).getMaxtempC());
+            mDay2Temp.setText(temp + " \u2103");
+            Utils.loadImage(getActivity(), mDay2Image, mData.getWeather().get(2).getHourly().get(0).getWeatherIconUrl().get(0).getValue());
+
+
+            mDay3Date.setText(mData.getWeather().get(3).getDate());
+            temp = Utils.getMidTemp(mData.getWeather().get(3).getMintempC(), mData.getWeather().get(3).getMaxtempC());
+            mDay3Temp.setText(temp + " \u2103");
+            Utils.loadImage(getActivity(), mDay3Image, mData.getWeather().get(3).getHourly().get(0).getWeatherIconUrl().get(0).getValue());
+
+            mDay4Date.setText(mData.getWeather().get(4).getDate());
+            temp = Utils.getMidTemp(mData.getWeather().get(4).getMintempC(), mData.getWeather().get(4).getMaxtempC());
+            mDay4Temp.setText(temp + " \u2103");
+            Utils.loadImage(getActivity(), mDay4Image, mData.getWeather().get(4).getHourly().get(0).getWeatherIconUrl().get(0).getValue());
+            stopLoading();
+        }
+    }
 
 
 }

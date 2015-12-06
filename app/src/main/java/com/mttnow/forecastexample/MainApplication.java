@@ -13,7 +13,6 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        //Install CustomActivityOnCrash
         CustomActivityOnCrash.install(this);
         CustomActivityOnCrash.setShowErrorDetails(false);
         CustomActivityOnCrash.setEnableAppRestart(false);

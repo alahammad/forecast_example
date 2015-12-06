@@ -50,9 +50,11 @@ public class ForecastDetailsPresenterImp implements ForecastDetailsPresenter {
 
             @Override
             public void onFailure(Throwable t) {
-                DialogsUtils.getInstance().showDialog(context, "Error");
                 forecastView.stopLoading();
+                DialogsUtils.getInstance().showDialog(context, context.getString(R.string.api_error));
             }
         });
+
+
     }
 }

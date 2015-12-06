@@ -60,7 +60,7 @@ public class CitiesResultAdapter extends RecyclerView.Adapter<CitiesResultAdapte
 
     @Override
     public CityViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.city_row, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.add_city_row, viewGroup, false);
         CityViewHolder cityViewHolder = new CityViewHolder(v);
         return cityViewHolder;
     }
@@ -75,6 +75,15 @@ public class CitiesResultAdapter extends RecyclerView.Adapter<CitiesResultAdapte
         return cityList.length;
     }
 
+    public void setItems(City[] cityList) {
+        this.cityList = cityList;
+        notifyDataSetChanged();
+    }
+
+
+    public City[] getItems() {
+        return cityList;
+    }
 
     public City getItem(int position) {
         return cityList[position];

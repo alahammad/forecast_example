@@ -11,6 +11,7 @@ import com.mttnow.forecastexample.entites.City;
 import com.mttnow.forecastexample.entites.Forecast;
 import com.mttnow.forecastexample.entites.Search;
 import com.mttnow.forecastexample.utils.DatabaseUtils;
+import com.mttnow.forecastexample.utils.DialogsUtils;
 import com.mttnow.forecastexample.view.AddForecastView;
 
 import retrofit.Call;
@@ -32,7 +33,7 @@ public class AddForecastPresenterImp implements AddForecastPresenter {
     }
 
     @Override
-    public void searchCityForecast(String city, Context context) {
+    public void searchCityForecast(String city, final Context context) {
         addForecastView.startLoading();
         ForecastApi retrofit = ApiGenerator.createService(ForecastApi.class);
         Call<Search> call = retrofit.searchForecast(city, context.getString(R.string.api_key));
@@ -54,7 +55,8 @@ public class AddForecastPresenterImp implements AddForecastPresenter {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.d("hammad", "GHH");
+                addForecastView.stopLoading();
+                DialogsUtils.getInstance().showDialog(context, context.getString(R.string.api_error));
             }
         });
 
