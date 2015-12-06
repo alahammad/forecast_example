@@ -33,7 +33,7 @@ import butterknife.OnClick;
 /**
  * Created by alahammad on 12/3/15.
  */
-public class ForecastFragment extends Fragment implements ForecastView, SwipeRefreshLayout.OnRefreshListener, CitiesAdapter.OnItemClickListener {
+public class ForecastFragment extends BaseFragment implements ForecastView, SwipeRefreshLayout.OnRefreshListener, CitiesAdapter.OnItemClickListener {
 
 
 
@@ -77,7 +77,6 @@ public class ForecastFragment extends Fragment implements ForecastView, SwipeRef
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
         prepareAdapters();
     }
 

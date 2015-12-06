@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * Created by alahammad on 12/3/15.
  */
-public class ForecastDetailsFragment extends Fragment implements ForecastDetailsView {
+public class ForecastDetailsFragment extends BaseFragment implements ForecastDetailsView {
 
     @Bind(R.id.tv_city_name)
     TextView mCityName;

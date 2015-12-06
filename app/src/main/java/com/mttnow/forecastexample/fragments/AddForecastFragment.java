@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * Created by alahammad on 12/3/15.
  */
-public class AddForecastFragment extends Fragment implements AddForecastView, SearchView.OnQueryTextListener {
+public class AddForecastFragment extends BaseFragment implements AddForecastView, SearchView.OnQueryTextListener {
 
 
     @Bind(R.id.toolbar)
