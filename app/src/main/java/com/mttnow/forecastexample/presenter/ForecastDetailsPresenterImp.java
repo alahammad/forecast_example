@@ -1,17 +1,13 @@
 package com.mttnow.forecastexample.presenter;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.mttnow.forecastexample.R;
 import com.mttnow.forecastexample.api.ApiGenerator;
 import com.mttnow.forecastexample.api.ForecastApi;
-import com.mttnow.forecastexample.entites.City;
 import com.mttnow.forecastexample.entites.Forecast;
-import com.mttnow.forecastexample.utils.DatabaseUtils;
 import com.mttnow.forecastexample.utils.DialogsUtils;
 import com.mttnow.forecastexample.view.ForecastDetailsView;
-import com.mttnow.forecastexample.view.ForecastView;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -54,7 +50,6 @@ public class ForecastDetailsPresenterImp implements ForecastDetailsPresenter {
                 DialogsUtils.getInstance().showDialog(context, context.getString(R.string.api_error));
             }
         });
-
 
     }
 }

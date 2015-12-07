@@ -2,25 +2,20 @@ package com.mttnow.forecastexample.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.mttnow.forecastexample.R;
-import com.mttnow.forecastexample.adapters.CitiesAdapter;
 import com.mttnow.forecastexample.adapters.CitiesResultAdapter;
 import com.mttnow.forecastexample.entites.City;
 import com.mttnow.forecastexample.presenter.AddForecastPresenter;
@@ -78,6 +73,7 @@ public class AddForecastFragment extends BaseFragment implements AddForecastView
         setupActionBar();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setHasFixedSize(true);
     }
 
 
@@ -102,7 +98,7 @@ public class AddForecastFragment extends BaseFragment implements AddForecastView
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        mPresenter.searchCityForecast(query, getActivity());
+        mPresenter.searchCityForecast(query.trim(), getActivity());
         return false;
     }
 
@@ -125,12 +121,12 @@ public class AddForecastFragment extends BaseFragment implements AddForecastView
     public void loadComplete(CitiesResultAdapter adapter) {
         // incase data returned one item no need to select, just add to list
         mAdapter = adapter;
+        mRecyclerView.setAdapter(mAdapter);
         if (mAdapter.getItemCount() == 1) {
             City city = mAdapter.getItem(0);
             DatabaseUtils.getInstance(getActivity()).createCity(city);
             getActivity().getSupportFragmentManager().popBackStack();
         } else {
-            mRecyclerView.setAdapter(mAdapter);
             mAdapter.setOnItemClickListener(new CitiesResultAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {

@@ -1,8 +1,6 @@
 package com.mttnow.forecastexample.entites;
 
 
-import android.os.Parcel;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -64,4 +62,7 @@ public class Data extends RealmObject {
     public void setId(long id) {
         this.id = id;
     }
+
+
+
 }

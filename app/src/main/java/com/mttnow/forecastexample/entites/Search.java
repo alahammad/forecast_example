@@ -5,6 +5,7 @@ package com.mttnow.forecastexample.entites;
  */
 public class Search {
 
+    private Data data;
     private Search_api search_api;
 
     public Search_api getSearch_api() {
@@ -20,4 +21,12 @@ public class Search {
         return "ClassPojo [search_api = " + search_api + "]";
     }
 
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
 }

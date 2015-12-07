@@ -1,16 +1,13 @@
 package com.mttnow.forecastexample.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.mttnow.forecastexample.R;
 import com.mttnow.forecastexample.adapters.CitiesResultAdapter;
 import com.mttnow.forecastexample.api.ApiGenerator;
 import com.mttnow.forecastexample.api.ForecastApi;
 import com.mttnow.forecastexample.entites.City;
-import com.mttnow.forecastexample.entites.Forecast;
 import com.mttnow.forecastexample.entites.Search;
-import com.mttnow.forecastexample.utils.DatabaseUtils;
 import com.mttnow.forecastexample.utils.DialogsUtils;
 import com.mttnow.forecastexample.view.AddForecastView;
 
@@ -41,15 +38,23 @@ public class AddForecastPresenterImp implements AddForecastPresenter {
             @Override
             public void onResponse(Response<Search> response, Retrofit retrofit) {
                 addForecastView.stopLoading();
-                if (response.isSuccess()) {
-                    City[] result = new City[response.body().getSearch_api().getResult().length];
-                    for (int i = 0; i < response.body().getSearch_api().getResult().length; i++) {
-                        result[i] = new City(response.body().getSearch_api().getResult()[i].getAreaName()[0].getValue() + ", " + response.body().getSearch_api().getResult()[i].getCountry()[0].getValue());
+                if (response.body().getData()==null||response.body().getData().getError()==null) {
+                    if (response.isSuccess()) {
+                        City[] result = new City[response.body().getSearch_api().getResult().length];
+                        for (int i = 0; i < response.body().getSearch_api().getResult().length; i++) {
+                            result[i] = new City(response.body().getSearch_api().getResult()[i].getAreaName()[0].getValue() + ", " + response.body().getSearch_api().getResult()[i].getCountry()[0].getValue());
+                        }
+
+                        CitiesResultAdapter adapter = new CitiesResultAdapter(result);
+                        addForecastView.loadComplete(adapter);
+
+                    } else {
+                        DialogsUtils.getInstance().showDialog(context, context.getString(R.string.api_error));
                     }
-
-                    CitiesResultAdapter adapter = new CitiesResultAdapter(result);
-                    addForecastView.loadComplete(adapter);
-
+                }else{
+                    // show api error
+                    com.mttnow.forecastexample.entites.Error error = response.body().getData().getError().get(0);
+                    DialogsUtils.getInstance().showDialog(context, error.getMsg());
                 }
             }
 

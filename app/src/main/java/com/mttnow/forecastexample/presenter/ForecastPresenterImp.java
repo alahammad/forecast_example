@@ -1,14 +1,13 @@
 package com.mttnow.forecastexample.presenter;
 
 import android.content.Context;
-import android.text.TextUtils;
-import android.util.Log;
 
 import com.mttnow.forecastexample.R;
 import com.mttnow.forecastexample.adapters.CitiesAdapter;
 import com.mttnow.forecastexample.api.ApiGenerator;
 import com.mttnow.forecastexample.api.ForecastApi;
-import com.mttnow.forecastexample.entites.*;
+import com.mttnow.forecastexample.entites.City;
+import com.mttnow.forecastexample.entites.Forecast;
 import com.mttnow.forecastexample.utils.DatabaseUtils;
 import com.mttnow.forecastexample.utils.DialogsUtils;
 import com.mttnow.forecastexample.utils.Utils;
@@ -24,7 +23,7 @@ import retrofit.Retrofit;
  */
 public class ForecastPresenterImp implements ForecastPresenter {
 
-
+    boolean isError;
     private ForecastView forecastView;
 
 
@@ -54,10 +53,12 @@ public class ForecastPresenterImp implements ForecastPresenter {
                         adapter.notifyDataSetChanged();
                     }
                 }
-
                 @Override
                 public void onFailure(Throwable t) {
+                    // avoid show message for many times becasue of for
+                    if (!isError)
                     DialogsUtils.getInstance().showDialog(context, context.getString(R.string.api_error));
+                    isError=true;
                 }
             });
         }
