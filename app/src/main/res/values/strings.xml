@@ -12,7 +12,7 @@
     <string name="font_name">quicksand.otf</string>
 
 
-    <string name="api_error">Opps, something happen.. please try later</string>
+    <string name="api_error">Oops, something happen.. please try later</string>
 
     <string name="delete_item">Delete Item?</string>
     <string name="yes_delete">Yes,Delete</string>

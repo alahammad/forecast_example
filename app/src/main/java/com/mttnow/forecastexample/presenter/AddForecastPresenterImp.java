@@ -53,7 +53,7 @@ public class AddForecastPresenterImp implements AddForecastPresenter {
                             DialogsUtils.getInstance().showDialog(context, context.getString(R.string.api_error));
                         }
                     } else {
-                        // show api error
+                        // show error from api
                         com.mttnow.forecastexample.entites.Error error = response.body().getData().getError().get(0);
                         DialogsUtils.getInstance().showDialog(context, error.getMsg());
                     }
