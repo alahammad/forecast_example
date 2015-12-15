@@ -9,7 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmObject;
 
+
+
+
 /**
+ * source :  http://gradlewhy.ghost.io/realm-results-with-recyclerview/
  * Wrapper class that allows a RealmBaseAdapter instance to serve
  * as the data source for a RecyclerView.Adapter.
  */
